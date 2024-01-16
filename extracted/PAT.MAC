@@ -1,0 +1,58 @@
+	TITLE	PAT -- SITBOL V4 PATCHES
+;		------------------------
+
+; Must be compiled with COM.MAC
+
+; Must be loaded last so as not to invalidate SAV files.
+
+	LOC	137		; plant new version
+	XWD	401,5		; RH is edit number
+
+	TWOSEG
+	RELOC	400000		;place in high segment
+
+; Patch for INTEGER function (4/10/75) /DRH
+; See INTGR on p. 6 in NUM.MAC
+;
+PAT001::HLRZ	Q1,-1(STACK)	; get datatype
+	CAIE	Q1,IDT		; integer
+	JRST	FRET1##		; no--fail
+	JRST	RETNL1##	; yes--succeed
+
+; Patch for CONVERT function (4/12/75) /DRH
+; See p. 9 in CVT.MAC
+;
+F..NEG==1B18
+PAT002::TRO	T2,F..NEG	; here for minus sign
+	JUMPLE	T3,0(TLINK)	; here for + sign; fail if only + or -
+	JRST	CVSXXX##	; return to main flow
+
+; Patch for MTCH function (4/12/75) /DRH
+; See p. 10 in PG.MAC
+;
+PAT003::MOVE	P2,PATT##	;Reload PBLOK address
+	ADD	P2,PATT+1	;point to current node
+	HRLZ	Z,PSUBS(P2)	;get subsequent
+	JRST	SC.S##+1	;go back where we belong
+
+; Patch to remove SETDDT stuff (6/19/75) /DRH
+; See EXIT in IO on p. 24.
+;
+PAT004::CLEAR	Q1,
+	SETDDT	Q1,		; insure that .JBDDT is 0
+	JRST	RETNL1##	; return from EXIT function
+
+; Patch to fix real to string conversion for zero (6/24/75) /DRH
+; See CVI.SZ in CVT on p. 7.
+;
+PAT005::HLRZ	T3,-1(STACK)	; get dt
+	CAIE	T3,RDT		; real?
+	JRST	CVI.S3##	; no--return "0"
+	MOVEI	T4,"."		; yes--make "0.0"
+	IDPB	T4,IGNOQ##	; ...
+	MOVEI	T4,"0"		; ...
+	IDPB	T4,IGNOQ	; ...
+	MOVEI	Q2,3		; string is now 3 characters long
+	JRST	CVI.S3##	; return it
+
+	END

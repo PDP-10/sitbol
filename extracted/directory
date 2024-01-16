@@ -1,0 +1,30 @@
+
+file                                              page
+
+preamble                                          1
+dsk:000000.HDR[1000,143]                          2
+dsk:ARY.MAC[1000,143]                             3
+dsk:COM.MAC[1000,143]                             4
+dsk:COME.MAC[1000,143]                            5
+dsk:CVT.MAC[1000,143]                             6
+dsk:DATA.MAC[1000,143]                            7
+dsk:DFD.MAC[1000,143]                             8
+dsk:DFF.MAC[1000,143]                             9
+dsk:ERR.MAC[1000,143]                             10
+dsk:GC.MAC[1000,143]                              11
+dsk:INT.MAC[1000,143]                             12
+dsk:IO.MAC[1000,143]                              13
+dsk:KW.MAC[1000,143]                              14
+dsk:LEX.MAC[1000,143]                             15
+dsk:NUM.MAC[1000,143]                             16
+dsk:PAT.MAC[1000,143]                             17
+dsk:PEXT.MAC[1000,143]                            18
+dsk:PG.MAC[1000,143]                              19
+dsk:PL.MAC[1000,143]                              20
+dsk:SMR.MAC[1000,143]                             21
+dsk:STR.MAC[1000,143]                             22
+dsk:SYM.MAC[1000,143]                             23
+dsk:SYN.MAC[1000,143]                             24
+dsk:TBL.MAC[1000,143]                             25
+dsk:TRC.MAC[1000,143]                             26
+directory                                         27

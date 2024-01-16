@@ -1,0 +1,100 @@
+	LIST	; FORCE USER TO SEE WHO WE ARE.
+	COMMENT .
+
+
+
+
+
+
+
+
+
+
+
+
+
+			* * *   S I T B O L   * * *
+
+				VERSION   3
+
+
+
+
+
+	COPYRIGHT STEVENS INSTITUTE OF TECHNOLOGY   1972, 1973
+
+	ALL RIGHT RESERVED.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;-----------------------;
+
+	IF2 ,<PRINTX SITBOL VERSION 3 - MODULE EDIT NUMBER = 0>
+
+;-----------------------;
+
+
+
+	TITLE	PEXT - EXTERNAL FUNCTIONS
+;		-------------------------
+	SUBTTL	DRB/DRH
+
+; Make sure COM is around
+;
+IFNDEF STACK,<PRINTX ?Assemble me with COM.MAC
+	      PASS2
+	      END>
+
+; Make sure we want this feature
+;
+IFE FTEXT,<
+UNLD$::
+LOAD$::
+END>
+
+	TWOSEG
+	RELOC	400000
+
+REPEAT 0,<
+
+Contents:
+
+	UNLOAD(name)
+
+	LOAD(prototype,file,calltype)
+
+Calling External Functions
+
+>
+
+	SUBTTL	Primary Function UNLOAD(name)
+;		-----------------------------
+
+	FUNC	UNLD$,2,ES
+
+	JSP	TLINK,CVTNAM##	; convert to name
+	 ERROR.	1,xxx		; not a name
+	SKIPE	0(STACK)	; must be natural...
+	 ERROR.	13,xxx		;  otherwise you lose
+	 ;
+	MOVE	T1,-1(STACK)	; get address of variable block
+	MOVEI	T2,UNDEF$##	; get address of undefined function
+	HRRM	T2,VFUNC(T1)	; zap the function field
+	 ;
+	JRST	RETNL1##	; return the null string
